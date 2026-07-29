@@ -1,17 +1,18 @@
-import os, json
+import json
+from pathlib import Path
 
 class DataManager:
-    arquivo = os.path.join(os.path.dirname(__file__),"translations.json")
+    ARQUIVO = Path(__file__).parent / "translations.json"
 
     def __init__(self):
         self.data = self.carregar()
 
     def carregar(self):
-        with open(self.arquivo, encoding="utf-8") as f:
+        with open(self.ARQUIVO, encoding="utf-8") as f:
             return json.load(f)
 
     def salvar(self):
-        with open(self.arquivo, "w", encoding="utf-8") as f:
+        with open(self.ARQUIVO, "w", encoding="utf-8") as f:
             json.dump(self.data, f, ensure_ascii=False, indent=4)
 
     def adicionar(self, erro, traducao):

@@ -2,6 +2,8 @@
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
+[tool.setuptools.package-data]
+exceptbr = ["translations.json"]
 
 [project]
 name = "exceptbr"
