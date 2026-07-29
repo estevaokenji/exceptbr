@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "exceptbr"
+version = "0.1.0"
+description = "Traceback Python traduzido para português"
+authors = [
+    {name="estevaokenji"}
+]
+
+dependencies = [
+    "rich",
+    "deep-translator"
+]
