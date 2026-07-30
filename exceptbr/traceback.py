@@ -1,23 +1,26 @@
 import os
+from types import TracebackType
+from rich.panel import Panel
 from .translator import Translator
 
 class Traceback:
     def __init__(self, exception: Exception):
-        self.nome = type(exception).__name__
-        self.texto = Translator(str(exception)).strip().capitalize()
-        tb, arquivo = self.traceback(exception)
-        self.linha = tb.tb_lineno
-        self.pasta = os.path.dirname(arquivo)
-        self.nome_arquivo = os.path.basename(arquivo)
-        self.codigo = self.code(arquivo)
+        self._nome = type(exception).__name__
+        self._texto = Translator(str(exception)).strip().capitalize()
+        tb = self.traceback(exception)
+        arquivo = tb.tb_frame.f_code.co_filename
+        self._linha = tb.tb_lineno
+        self._pasta = os.path.dirname(arquivo)
+        self._nome_arquivo = os.path.basename(arquivo)
+        self._codigo = self.code(arquivo)
         
-    def traceback(self, exception: Exception):
+    def traceback(self, exception: Exception) -> TracebackType:
         tb = exception.__traceback__
         while tb.tb_next:
             tb = tb.tb_next
-        return tb, tb.tb_frame.f_code.co_filename
+        return tb
 
-    def code(self, arquivo: str):
+    def code(self, arquivo: str) -> str:
         with open(arquivo, "r", encoding="utf-8") as f:
             linhas = f.readlines()
         inicio = self.linha - 4
@@ -39,3 +42,6 @@ class Traceback:
                 c = f"[grey46]{c}[/]"
             codigo += f"\n{e} {n} {c}"
         return codigo
+
+    def panel(self) -> Panel:
+        return Panel(f"[reset]{self._pasta}\\{self._nome_arquivo}:{self._linha}\n{self._codigo}[/]", title=f"{self._nome}: [reset]{self._texto}[/]", style="bold bright_red", width=100)
