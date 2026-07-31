@@ -12,8 +12,12 @@ O visual renovado é intuitivo para facilitar sua compreensão do erro.
 
 ## Instalação
 
+1. Baixe os arquivos do exceptbr
+2. Abra o terminal
+3. Use:
 ```bash
-pip install exceptbr
+cd [local-da-pasta]
+pip install .
 ```
 
 Criador: [@estevaokenji](https://github.com/estevaokenji)
